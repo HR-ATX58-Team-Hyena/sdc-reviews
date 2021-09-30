@@ -1,5 +1,6 @@
-const { pgConfig } = require('../config.js');
 const { Pool } = require('pg');
+const { pgConfig } = require('../config.js');
+
 const psql = new Pool(pgConfig);
 
 // TESTING
@@ -7,9 +8,4 @@ const psql = new Pool(pgConfig);
 //   .then(res => console.log('Successful query:', res.rows))
 //   .catch(e => console.error(e.stack));
 
-const getMetaData = require('./reviewsMeta.js');
-
-module.exports = {
-  psql,
-  getMetaData,
-};
+module.exports = psql;
