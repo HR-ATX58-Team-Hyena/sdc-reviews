@@ -1,4 +1,4 @@
-const { pgConfig } = require('../config.js')
+const { pgConfig } = require('../config.js');
 const { Pool } = require('pg');
 const psql = new Pool(pgConfig);
 
@@ -7,4 +7,6 @@ const psql = new Pool(pgConfig);
 //   .then(res => console.log('Successful query:', res.rows))
 //   .catch(e => console.error(e.stack));
 
-module.exports = psql
+module.exports = {
+  psql
+};
