@@ -1,18 +1,11 @@
 const express = require('express');
 const cors = require('cors');
+const getMetaData = require('./db/reviewsMeta');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 const port = 3030;
-
-/**
- * ENDPOINTS:
- * /reviews/ - GET (Params: page, count, sort, product_id*) POST
- * /reviews/meta - GET (Params: product_id*)
- * /reviews/:review_id/helpful - PUT (Params: review_id*)
- * /reviews/:review_id/report - PUT (Params: review_id*)
- */
 
 // /reviews
 
@@ -39,7 +32,14 @@ app.post('/reviews', (req, res) => {
 app.get('/reviews/meta', (req, res) => {
   console.log('GET reviews/meta request:', JSON.stringify(req.query));
   if (req.query?.product_id) {
-    res.send(`Succcessfully called reviews meta for product ${req.query.product_id}!`);
+    getMetaData(req.query.product_id, (e, metaData) => {
+      if (e) {
+        console.error(e.stack);
+        res.status(500).send('Internal Server Error');
+      } else {
+        res.send(metaData);
+      }
+    });
   } else {
     res.status(400).send('Please provide a product_id parameter');
   }
