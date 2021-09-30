@@ -7,6 +7,9 @@ const psql = new Pool(pgConfig);
 //   .then(res => console.log('Successful query:', res.rows))
 //   .catch(e => console.error(e.stack));
 
+const getMetaData = require('./reviewsMeta.js');
+
 module.exports = {
-  psql
+  psql,
+  getMetaData,
 };
