@@ -1,12 +1,16 @@
 const express = require('express');
 const cors = require('cors');
-const getReviewsData = require('./db/getReviewsData.js');
-const getMetaData = require('./db/getMetaData.js');
+
+// modules
+const {
+  getReviewsData,
+  getMetaData,
+} = require('./db/modules.js');
 
 const app = express();
+const port = 3030;
 app.use(cors());
 app.use(express.json());
-const port = 3030;
 
 // reviews
 
