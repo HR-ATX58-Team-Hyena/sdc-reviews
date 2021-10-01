@@ -10,10 +10,10 @@ const port = 3030;
 
 // reviews
 
-app.get('/reviews', (req, res) => {
-  console.log('GET reviews request:', JSON.stringify(req.query));
-  if (req.query?.product_id) {
-    getReviewsData(req.query, (e, reviewsData) => {
+app.get('/reviews/:product_id/list', (req, res) => {
+  console.log('GET reviews request:', JSON.stringify({ ...req.params, ...req.query }));
+  if (req.params?.product_id) {
+    getReviewsData({ product_id: req.params.product_id, ...req.query }, (e, reviewsData) => {
       if (e) {
         console.error(e.stack);
         res.status(500).send('Internal Server Error');
@@ -33,12 +33,12 @@ app.post('/reviews', (req, res) => {
   }
 });
 
-// reviews/meta
+// reviews/:id/meta
 
-app.get('/reviews/meta', (req, res) => {
+app.get('/reviews/:product_id/meta', (req, res) => {
   console.log('GET reviews/meta request:', JSON.stringify(req.query));
-  if (req.query?.product_id) {
-    getMetaData(req.query.product_id, (e, metaData) => {
+  if (req.params?.product_id) {
+    getMetaData(req.params.product_id, (e, metaData) => {
       if (e) {
         console.error(e.stack);
         res.status(500).send('Internal Server Error');
