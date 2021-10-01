@@ -52,12 +52,12 @@ app.get('/reviews/:product_id/meta', (req, res) => {
 });
 
 // reviews/:review_id flagging
-app.put('/reviews/:review_id/helpful', (req, res) => {
+app.put('/reviews/helpful/:review_id', (req, res) => {
   console.log(`PUT reviews/${req.params.review_id}/helpful request received`);
   res.send(`Successfully marked review ${req.params.review_id} as helpful.`);
 });
 
-app.put('/reviews/:review_id/report', (req, res) => {
+app.put('/reviews/report/:review_id', (req, res) => {
   console.log(`PUT reviews/${req.params.review_id}/report request received`);
   res.send(`Successfully marked review ${req.params.review_id} as reported.`);
 });
