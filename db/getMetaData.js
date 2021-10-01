@@ -5,7 +5,9 @@ const getMetaData = (productId, callback) => {
     product_id: productId,
   };
 
-  psql.query(`SELECT rating, COUNT (rating) FROM reviews WHERE product_id = ${productId} GROUP BY rating ORDER BY rating ASC`)
+  const parameterizedID = [productId];
+
+  psql.query('SELECT rating, COUNT (rating) FROM reviews WHERE product_id = $1 GROUP BY rating ORDER BY rating ASC', parameterizedID)
     .then((res) => {
       metaData.ratings = {};
 
@@ -21,7 +23,7 @@ const getMetaData = (productId, callback) => {
         metaData.recommended[rec.recommended] = rec.count;
       });
 
-      return psql.query(`SELECT ch.name as name, ch.characteristic_id as id, AVG(chr.value) as value FROM characteristics as ch INNER JOIN characteristic_reviews as chr ON ch.characteristic_id = chr.characteristic_id WHERE product_id = ${productId} GROUP BY ch.characteristic_id`);
+      return psql.query(`SELECT ch.name as name, ch.characteristic_id as id, AVG(chr.value) as value FROM characteristics as ch INNER JOIN characteristic_reviews as chr ON ch.characteristic_id = chr.characteristic_id WHERE ch.product_id = ${productId} GROUP BY ch.characteristic_id`);
     }).then((res) => {
       metaData.characteristics = {};
 

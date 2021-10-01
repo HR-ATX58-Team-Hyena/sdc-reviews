@@ -1,20 +1,26 @@
 const express = require('express');
 const cors = require('cors');
-const getMetaData = require('./db/reviewsMeta');
+const getReviewsData = require('./db/getReviewsData.js');
+const getMetaData = require('./db/getMetaData.js');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 const port = 3030;
 
-// /reviews
+// reviews
 
 app.get('/reviews', (req, res) => {
   console.log('GET reviews request:', JSON.stringify(req.query));
   if (req.query?.product_id) {
-    res.send(`Successfully called reviews for product ${req.query.product_id}!`);
-  } else {
-    res.status(400).send('Please provide a product_id parameter');
+    getReviewsData(req.query, (e, reviewsData) => {
+      if (e) {
+        console.error(e.stack);
+        res.status(500).send('Internal Server Error');
+      } else {
+        res.send(reviewsData);
+      }
+    });
   }
 });
 
