@@ -5,7 +5,9 @@ const getMetaData = (productId, callback) => {
     product_id: productId,
   };
 
-  psql.query(`SELECT rating, COUNT (rating) FROM reviews WHERE product_id = ${productId} GROUP BY rating ORDER BY rating ASC`)
+  const parameterizedID = [productId];
+
+  psql.query('SELECT rating, COUNT (rating) FROM reviews WHERE product_id = $1 GROUP BY rating ORDER BY rating ASC', parameterizedID)
     .then((res) => {
       metaData.ratings = {};
 

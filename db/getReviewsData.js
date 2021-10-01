@@ -8,8 +8,10 @@ const getReviewsData = ({ product_id, sort = 'newest', count = 5, page = 0 }, ca
     count,
   };
 
-  const selectReviews = `SELECT review_id, rating, summary, recommend, response, body, date, reviewer_name, helpfulness FROM reviews  WHERE product_id = ${product_id} `;
-  const fetchReviews = ` OFFSET ${offset} ROWS FETCH FIRST ${count} ROW ONLY `;
+  const parameterizedValues = [product_id, parseInt(count, 10)];
+
+  const selectReviews = 'SELECT review_id, rating, summary, recommend, response, body, date, reviewer_name, helpfulness FROM reviews  WHERE product_id = $1';
+  const fetchReviews = ` OFFSET ${offset} ROWS FETCH FIRST $2 ROW ONLY `;
   let sortReviews = 'ORDER BY date DESC'; // will implement relevance
 
   switch (sort) {
@@ -23,7 +25,7 @@ const getReviewsData = ({ product_id, sort = 'newest', count = 5, page = 0 }, ca
       break;
   }
 
-  psql.query(selectReviews + sortReviews + fetchReviews)
+  psql.query(selectReviews + sortReviews + fetchReviews, parameterizedValues)
     .then((res) => {
       if (res.rows.length) {
         const reviewsObject = {};
