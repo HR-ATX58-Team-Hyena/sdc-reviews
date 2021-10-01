@@ -24,10 +24,10 @@ app.get('/reviews/:product_id/list', (req, res) => {
   }
 });
 
-app.post('/reviews', (req, res) => {
+app.post('/reviews/:product_id', (req, res) => {
   console.log('POST reviews request:', JSON.stringify(req.body));
-  if (req.body?.product_id) {
-    res.send(`Successfully created a review for product ${req.body.product_id}!`);
+  if (req.params?.product_id) {
+    res.send(`Successfully created a review for product ${req.params.product_id}!`);
   } else {
     res.status(400).send('Please include a product_id in the body of your request.');
   }
