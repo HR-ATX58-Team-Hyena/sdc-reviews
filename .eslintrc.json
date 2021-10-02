@@ -10,10 +10,14 @@
         "ecmaVersion": 12,
         "sourceType": "module"
     },
+    "ignorePatterns": [
+        "*.test.js"
+    ],
     "rules": {
         "no-console": "off",
         "camelcase": "off",
         "import/extensions": "off",
         "object-curly-newline": "off"
     }
+
 }
