@@ -3,6 +3,7 @@ const cors = require('cors');
 
 // modules
 const {
+  countHelpful,
   getReviewsData,
   getMetaData,
 } = require('./db/modules');
@@ -57,12 +58,19 @@ app.get('/reviews/:product_id/meta', (req, res) => {
 
 // reviews/:review_id flagging
 app.put('/reviews/helpful/:review_id', (req, res) => {
-  console.log(`PUT reviews/${req.params.review_id}/helpful request received`);
-  res.send(`Successfully marked review ${req.params.review_id} as helpful.`);
+  console.log('PUT reviews/helpful request received');
+  countHelpful(req.params.review_id, (e, response) => {
+    if (e) {
+      console.log(e.stack);
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.send(response);
+    }
+  });
 });
 
 app.put('/reviews/report/:review_id', (req, res) => {
-  console.log(`PUT reviews/${req.params.review_id}/report request received`);
+  console.log('PUT reviews/report request received');
   res.send(`Successfully marked review ${req.params.review_id} as reported.`);
 });
 
