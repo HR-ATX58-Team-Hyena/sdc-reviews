@@ -53,10 +53,18 @@ CREATE TABLE characteristic_reviews (
 \COPY reviews (review_id, product_id, rating, epoch, summary, body, recommend, reported, reviewer_name, reviewer_email, response, helpfulness) FROM '/Users/donvida/Documents/Repos/sdc-data/starterReviews.csv' DELIMITER ',' CSV HEADER;
 
 UPDATE reviews SET date = to_timestamp(floor(epoch / 1000));
-ALTER TABLE reviews DROP COLUMN epoch
+ALTER TABLE reviews DROP COLUMN epoch;
+
+SELECT setval(pg_get_serial_sequence('reviews', 'review_id'), max(review_id)) FROM reviews;
 
 \COPY photos (photo_id, review_id, url) FROM '/Users/donvida/Documents/Repos/sdc-data/starterReviewsPhotos.csv' DELIMITER ',' CSV HEADER;
 
+SELECT setval(pg_get_serial_sequence('photos', 'photo_id'), max(photo_id)) FROM photos;
+
 \COPY characteristics (characteristic_id, product_id, name) FROM '/Users/donvida/Documents/Repos/sdc-data/starterCharacteristics.csv' DELIMITER ',' CSV HEADER;
 
+SELECT setval(pg_get_serial_sequence('characteristics', 'characteristic_id'), max(characteristic_id)) FROM characteristics;
+
 \COPY characteristic_reviews (char_review_id, characteristic_id, review_id, value) FROM '/Users/donvida/Documents/Repos/sdc-data/starterCharacteristicReviews.csv' DELIMITER ',' CSV HEADER;
+
+SELECT setval(pg_get_serial_sequence('characteristic_reviews', 'char_review_id'), max(char_review_id)) FROM characteristic_reviews;
