@@ -5,7 +5,7 @@ const cors = require('cors');
 const {
   getReviewsData,
   getMetaData,
-} = require('./db/modules.js');
+} = require('./db/modules');
 
 const app = express();
 const port = 3030;

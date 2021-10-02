@@ -1,4 +1,4 @@
-const psql = require('./connector.js');
+const psql = require('./connector');
 
 const getMetaData = (productId, callback) => {
   const metaData = {

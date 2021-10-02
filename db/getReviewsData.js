@@ -1,4 +1,4 @@
-const psql = require('./connector.js');
+const psql = require('./connector');
 
 const getReviewsData = ({ product_id, sort, count = 5, page = 0 }, callback) => {
   const offset = count * page;
