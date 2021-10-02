@@ -1,7 +1,7 @@
 const { Pool } = require('pg');
 const { pgConfig } = require('../config.js');
 
-const psql = new Pool(pgConfig);
+const psql = new Pool({ ...pgConfig, idleTimeoutMillis: 1 });
 
 // TESTING
 // psql.query('SELECT * FROM reviews LIMIT 5')
