@@ -4,7 +4,7 @@
   "description": "Reviews Service for Project Catwalk",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --coverage",
     "start": "nodemon server.js",
     "reset-psql": "psql -U postgres -a -f db/schemas/postgres.sql"
   },
