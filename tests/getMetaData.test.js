@@ -9,7 +9,7 @@ test('getMetaData should pass back an object, but not an array', done => {
   }
 
   getMetaData(1, callback)
-})
+});
 
 test('getMetaData still passes back an object when given a product id that doesn\'t return results', done => {
   let callback = (err, data) => {
@@ -20,4 +20,4 @@ test('getMetaData still passes back an object when given a product id that doesn
   }
 
   getMetaData(987, callback)
-})
+});
