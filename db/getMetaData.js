@@ -41,8 +41,7 @@ const getMetaData = (productId, callback) => {
 
       callback(null, metaData);
     })
-    .catch((e) => callback(e))
-    .then(() => psql.release());
+    .catch((e) => callback(e));
 };
 
 module.exports = getMetaData;

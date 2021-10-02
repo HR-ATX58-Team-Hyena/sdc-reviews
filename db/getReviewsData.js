@@ -67,8 +67,7 @@ const getReviewsData = ({ product_id, sort, count = 5, page = 0 }, callback) => 
         callback(null, reviewsData);
       }
     })
-    .catch((e) => callback(e))
-    .then(() => psql.release());
+    .catch((e) => callback(e));
 };
 
 module.exports = getReviewsData;
