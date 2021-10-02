@@ -16,7 +16,6 @@
     "rules": {
         "no-console": "off",
         "camelcase": "off",
-        "import/extensions": "off",
         "object-curly-newline": "off"
     }
 
