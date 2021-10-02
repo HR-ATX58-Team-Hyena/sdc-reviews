@@ -3,6 +3,7 @@ const cors = require('cors');
 
 // modules
 const {
+  flagReview,
   getReviewsData,
   getMetaData,
 } = require('./db/modules.js');
@@ -62,8 +63,15 @@ app.put('/reviews/helpful/:review_id', (req, res) => {
 });
 
 app.put('/reviews/report/:review_id', (req, res) => {
-  console.log(`PUT reviews/${req.params.review_id}/report request received`);
-  res.send(`Successfully marked review ${req.params.review_id} as reported.`);
+  console.log('PUT reviews/helpful request received');
+  flagReview(req.params.review_id, (e, response) => {
+    if (e) {
+      console.log(e.stack);
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.send(response);
+    }
+  });
 });
 
 // Listening
