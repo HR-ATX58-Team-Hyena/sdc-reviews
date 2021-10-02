@@ -28,13 +28,13 @@ const getReviewsData = ({ product_id, sort, count = 5, page = 0 }, callback) => 
       sortReviews = 'ORDER BY date DESC';
       break;
     case 'relevant:asc': // pending relevance sort query
-      sortReviews = 'ORDER BY date ASC';
+      sortReviews = 'ORDER BY helpfulness DESC, date DESC';
       break;
     case 'relevant:desc': // pending relevance sort query
-      sortReviews = 'ORDER BY date DESC';
+      sortReviews = 'ORDER BY date DESC, helpfulness DESC';
       break;
     default:
-      sortReviews = 'ORDER BY date DESC';
+      sortReviews = 'ORDER BY date DESC, helpfulness DESC';
       break;
   }
 
@@ -51,7 +51,10 @@ const getReviewsData = ({ product_id, sort, count = 5, page = 0 }, callback) => 
           .then((photoRes) => {
             if (photoRes.rows.length) {
               photoRes.rows.forEach((row) => {
-                reviewsObject[row.review_id].photos.push(row);
+                reviewsObject[row.review_id].photos.push({
+                  id: row.photo_id,
+                  url: row.url,
+                });
               });
             }
             // returns the reviews back to an array based on the order of the list of ID's
@@ -64,7 +67,8 @@ const getReviewsData = ({ product_id, sort, count = 5, page = 0 }, callback) => 
         callback(null, reviewsData);
       }
     })
-    .catch((e) => callback(e));
+    .catch((e) => callback(e))
+    .then(() => psql.release());
 };
 
 module.exports = getReviewsData;
