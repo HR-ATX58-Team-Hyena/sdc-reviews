@@ -5,15 +5,17 @@ const getReviewsData = ({ product_id, sort, count = 5, page = 0 }, callback) => 
   const reviewsData = {
     product_id,
     page,
-    count,
+    count: parseInt(count, 10),
   };
 
-  const parameterizedValues = [product_id, parseInt(count, 10)];
+  const parameterizedValues = [product_id, count];
 
-  const selectReviews = 'SELECT review_id, rating, summary, recommend, response, body, date, reviewer_name, helpfulness FROM reviews  WHERE product_id = $1 AND reported = false';
+  const selectReviews = 'SELECT review_id, rating, summary, recommend, response, body, date, reviewer_name, helpfulness FROM reviews WHERE product_id = $1 AND reported = false ';
   const fetchReviews = ` OFFSET ${offset} ROWS FETCH FIRST $2 ROW ONLY `;
 
   let sortReviews = '';
+  console.log('sort request received:', sort);
+
   switch (sort) {
     case 'helpful:asc':
       sortReviews = 'ORDER BY helpfulness ASC';
@@ -28,13 +30,13 @@ const getReviewsData = ({ product_id, sort, count = 5, page = 0 }, callback) => 
       sortReviews = 'ORDER BY date DESC';
       break;
     case 'relevant:asc': // pending relevance sort query
-      sortReviews = 'ORDER BY helpfulness DESC, date DESC';
+      sortReviews = 'ORDER BY helpfulness, date DESC';
       break;
     case 'relevant:desc': // pending relevance sort query
-      sortReviews = 'ORDER BY date DESC, helpfulness DESC';
+      sortReviews = 'ORDER BY date, helpfulness DESC';
       break;
     default:
-      sortReviews = 'ORDER BY date DESC, helpfulness DESC';
+      sortReviews = 'ORDER BY date, helpfulness DESC';
       break;
   }
 
@@ -58,7 +60,18 @@ const getReviewsData = ({ product_id, sort, count = 5, page = 0 }, callback) => 
               });
             }
             // returns the reviews back to an array based on the order of the list of ID's
-            reviewsData.results = reviewIDList.map((id) => reviewsObject[id]);
+            reviewsData.results = reviewIDList.map((id) => ({
+              review_id: reviewsObject[id].review_id,
+              rating: reviewsObject[id].rating,
+              summary: reviewsObject[id].summary,
+              recommend: reviewsObject[id].recommend ? 1 : 0,
+              response: reviewsObject[id].response,
+              body: reviewsObject[id].body,
+              date: reviewsObject[id].date,
+              reviewer_name: reviewsObject[id].reviewer_name,
+              helpfulness: reviewsObject[id].helpfulness,
+              photos: reviewsObject[id].photos,
+            }));
             callback(null, reviewsData);
           })
           .catch((e) => callback(e));

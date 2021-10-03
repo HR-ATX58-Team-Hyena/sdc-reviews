@@ -12,21 +12,21 @@ const getMetaData = (productId, callback) => {
       metaData.ratings = {};
       if (res.rows.length) {
         res.rows.forEach((rat) => {
-          metaData.ratings[rat.rating] = rat.count;
+          metaData.ratings[rat.rating] = parseInt(rat.count, 10);
         });
       }
 
-      return psql.query(`SELECT recommend as recommended, COUNT (recommend) FROM reviews WHERE product_id = ${productId} GROUP BY recommend`);
+      return psql.query('SELECT recommend as recommended, COUNT (recommend) FROM reviews WHERE product_id = $1 GROUP BY recommend', parameterizedID);
     }).then((res) => {
       metaData.recommended = {};
 
       if (res.rows.length) {
         res.rows.forEach((rec) => {
-          metaData.recommended[rec.recommended] = rec.count;
+          metaData.recommended[rec.recommended] = parseInt(rec.count, 10);
         });
       }
 
-      return psql.query(`SELECT ch.name as name, ch.characteristic_id as id, AVG(chr.value) as value FROM characteristics as ch INNER JOIN characteristic_reviews as chr ON ch.characteristic_id = chr.characteristic_id WHERE ch.product_id = ${productId} GROUP BY ch.characteristic_id`);
+      return psql.query('SELECT ch.name as name, ch.characteristic_id as id, AVG(chr.value)::numeric(10, 4) as value FROM characteristics as ch INNER JOIN characteristic_reviews as chr ON ch.characteristic_id = chr.characteristic_id WHERE ch.product_id = $1 GROUP BY ch.characteristic_id', parameterizedID);
     }).then((res) => {
       metaData.characteristics = {};
 

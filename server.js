@@ -50,7 +50,7 @@ app.post('/reviews/:product_id', (req, res) => {
 // reviews/:id/meta
 
 app.get('/reviews/:product_id/meta', (req, res) => {
-  console.log('GET reviews/meta request:', JSON.stringify(req.query));
+  console.log('GET reviews/meta request:', req.params);
   if (req.params?.product_id) {
     getMetaData(req.params.product_id, (e, metaData) => {
       if (e) {

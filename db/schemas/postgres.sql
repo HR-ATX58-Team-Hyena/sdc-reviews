@@ -18,6 +18,8 @@ CREATE TABLE reviews (
   date TIMESTAMPTZ NOT NULL DEFAULT current_timestamp
 );
 
+CREATE INDEX product_reviews_index ON reviews(product_id);
+
 CREATE TABLE photos (
   photo_id SERIAL NOT NULL PRIMARY KEY,
   review_id INTEGER NOT NULL,
@@ -35,6 +37,9 @@ CREATE TABLE characteristics (
   name VARCHAR NOT NULL
 );
 
+CREATE INDEX product_chars_index ON characteristics(product_id);
+
+
 CREATE TABLE characteristic_reviews (
   char_review_id SERIAL NOT NULL PRIMARY KEY,
   characteristic_id INTEGER NOT NULL,
@@ -49,6 +54,8 @@ CREATE TABLE characteristic_reviews (
       REFERENCES reviews(review_id)
         ON DELETE CASCADE
 );
+
+CREATE INDEX review_char_reviews_index ON characteristic_reviews(review_id);
 
 \COPY reviews (review_id, product_id, rating, epoch, summary, body, recommend, reported, reviewer_name, reviewer_email, response, helpfulness) FROM '/Users/donvida/Documents/Repos/sdc-data/reviews.csv' DELIMITER ',' CSV HEADER;
 
