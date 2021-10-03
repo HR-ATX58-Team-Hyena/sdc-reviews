@@ -10,7 +10,7 @@ const getReviewsData = ({ product_id, sort, count = 5, page = 0 }, callback) => 
 
   const parameterizedValues = [product_id, count];
 
-  const selectReviews = 'SELECT review_id, rating, summary, recommend, response, body, date, reviewer_name, helpfulness FROM reviews WHERE product_id = $1 AND reported = false ';
+  const selectReviews = 'SELECT review_id, rating, summary, recommend, response, body, date, reviewer_name, helpfulness FROM reviews WHERE product_id = $1';
   const fetchReviews = ` OFFSET ${offset} ROWS FETCH FIRST $2 ROW ONLY `;
 
   let sortReviews = '';
@@ -64,7 +64,7 @@ const getReviewsData = ({ product_id, sort, count = 5, page = 0 }, callback) => 
               review_id: reviewsObject[id].review_id,
               rating: reviewsObject[id].rating,
               summary: reviewsObject[id].summary,
-              recommend: reviewsObject[id].recommend ? 1 : 0,
+              recommend: reviewsObject[id].recommend ? 0 : 1,
               response: reviewsObject[id].response,
               body: reviewsObject[id].body,
               date: reviewsObject[id].date,
