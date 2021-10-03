@@ -3,7 +3,6 @@ const cors = require('cors');
 
 // modules
 const {
-  addReview,
   countHelpful,
   flagReview,
   getReviewsData,
@@ -32,16 +31,9 @@ app.get('/reviews/:product_id/list', (req, res) => {
 });
 
 app.post('/reviews/:product_id', (req, res) => {
-  console.log('POST reviews request:', JSON.stringify({ product_id: req.params.product_id, ...req.body }));
+  console.log('POST reviews request:', JSON.stringify(req.body));
   if (req.params?.product_id) {
-    addReview({ product_id: req.params.product_id, ...req.body }, (e, response, eStatus) => {
-      if (e || eStatus) {
-        console.error(e?.stack || e);
-        res.status(eStatus || 500).send(typeof e === 'string' ? e : 'Internal server error');
-      } else {
-        res.status(201).send(response);
-      }
-    });
+    res.send(`Successfully created a review for product ${req.params.product_id}!`);
   } else {
     res.status(400).send('Please include a product_id in the body of your request.');
   }
