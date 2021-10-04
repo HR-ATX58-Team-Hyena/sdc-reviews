@@ -11,8 +11,8 @@ const getMetaData = (productId, callback) => {
     .then((res) => {
       metaData.ratings = {};
       if (res.rows.length) {
-        res.rows.forEach((rat) => {
-          metaData.ratings[rat.rating] = parseInt(rat.count, 10);
+        res.rows.forEach((rating) => {
+          metaData.ratings[rating.rating] = parseInt(rating.count, 10);
         });
       }
 
