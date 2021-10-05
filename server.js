@@ -32,7 +32,7 @@ app.get('/reviews/:product_id/list', (req, res) => {
 });
 
 app.post('/reviews/:product_id', (req, res) => {
-  console.log('POST reviews request:', JSON.stringify({ product_id: req.params.product_id, ...req.body }));
+  console.log('POST reviews request:', req.params);
   if (req.params?.product_id) {
     addReview({ product_id: req.params.product_id, ...req.body }, (e, response, eStatus) => {
       if (e || eStatus) {
