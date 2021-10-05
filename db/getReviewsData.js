@@ -10,11 +10,10 @@ const getReviewsData = ({ product_id, sort, count = 5, page = 0 }, callback) => 
 
   const parameterizedValues = [product_id, count];
 
-  const selectReviews = 'SELECT TOP(10) PERCENTreview_id, rating, summary, recommend, response, body, date, reviewer_name, helpfulness FROM reviews WHERE product_id = $1';
+  const selectReviews = 'SELECT review_id, rating, summary, recommend, response, body, date, reviewer_name, helpfulness FROM reviews WHERE product_id = $1';
   const fetchReviews = ` OFFSET ${offset} ROWS FETCH FIRST $2 ROW ONLY `;
 
   let sortReviews = '';
-  console.log('sort request received:', sort);
 
   switch (sort) {
     case 'helpful:asc':
