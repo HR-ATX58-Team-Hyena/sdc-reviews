@@ -10,4 +10,4 @@ test('getReviewsData should return a results array when provided a valid product
   }
 
   getReviewsData(9, callback);
-})
+});
