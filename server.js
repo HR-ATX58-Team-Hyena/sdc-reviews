@@ -1,4 +1,5 @@
 const express = require('express');
+const redis = require('redis');
 const cors = require('cors');
 
 // modules
@@ -11,6 +12,7 @@ const {
 } = require('./db/modules');
 
 const app = express();
+const cache = redis.createClient();
 const port = 3030;
 app.use(cors());
 app.use(express.json());
@@ -18,17 +20,27 @@ app.use(express.json());
 // reviews
 
 app.get('/reviews/:product_id/list', (req, res) => {
-  console.log('GET reviews request:', JSON.stringify({ ...req.params, ...req.query }));
-  if (req.params?.product_id) {
-    getReviewsData({ product_id: req.params.product_id, ...req.query }, (e, reviewsData) => {
-      if (e) {
-        console.error(e.stack);
-        res.status(500).send('Internal Server Error');
-      } else {
-        res.send(reviewsData);
-      }
-    });
-  }
+  console.log('GET reviews request:', req.params);
+  cache.get(`${req.params.product_id}/list`, (eCache, cachedReviewsData) => {
+    if (eCache) {
+      res.status(500).send('Internal Server Error');
+      console.log('An error with redis has occured:', eCache);
+    } else if (cachedReviewsData) {
+      res.send(JSON.parse(cachedReviewsData));
+      console.log('... retrieved reviews from cache');
+    } else {
+      getReviewsData({ product_id: req.params.product_id, ...req.query }, (e, reviewsData) => {
+        if (reviewsData) {
+          console.log('... retrieved reviews from db');
+          res.send(reviewsData);
+          cache.setex(`${req.params.product_id}/list`, 600, JSON.stringify(reviewsData));
+        } else {
+          res.status(500).send('Internal Server Error');
+          console.error(e.stack);
+        }
+      });
+    }
+  });
 });
 
 app.post('/reviews/:product_id', (req, res) => {
@@ -51,18 +63,26 @@ app.post('/reviews/:product_id', (req, res) => {
 
 app.get('/reviews/:product_id/meta', (req, res) => {
   console.log('GET reviews/meta request:', req.params);
-  if (req.params?.product_id) {
-    getMetaData(req.params.product_id, (e, metaData) => {
-      if (e) {
-        console.error(e.stack);
-        res.status(500).send('Internal Server Error');
-      } else {
-        res.send(metaData);
-      }
-    });
-  } else {
-    res.status(400).send('Please provide a product_id parameter');
-  }
+  cache.get(`${req.params.product_id}/meta`, (eCache, cachedMetaData) => {
+    if (eCache) {
+      res.status(500).send('Internal Server Error');
+      console.log('An error with redis has occured:', eCache);
+    } else if (cachedMetaData) {
+      res.send(JSON.parse(cachedMetaData));
+      console.log('... retrieved reviews/meta from cache');
+    } else {
+      getMetaData(req.params.product_id, (e, metaData) => {
+        if (metaData) {
+          console.log('... retrieved reviews/meta from db');
+          res.send(metaData);
+          cache.setex(`${req.params.product_id}/meta`, 600, JSON.stringify(metaData));
+        } else {
+          console.error(e.stack);
+          res.status(500).send('Internal Server Error');
+        }
+      });
+    }
+  });
 });
 
 // reviews/:review_id flagging
