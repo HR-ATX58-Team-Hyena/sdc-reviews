@@ -90,3 +90,7 @@ dist
 
 # Sensitive Access Data
 config.js
+
+# Artillery reports and sample data
+tests/artillery/reports
+tests/artillery/product_ids.csv
