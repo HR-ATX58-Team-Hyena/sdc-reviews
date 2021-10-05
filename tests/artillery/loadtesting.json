@@ -8,7 +8,22 @@
       {
         "duration": 60,
         "arrivalRate": 1,
-        "name": "second-try"
+        "name": "1 rps for 60 sec"
+      },
+      {
+        "duration": 60,
+        "arrivalRate": 10,
+        "name": "10 rps for 60 sec"
+      },
+      {
+        "duration": 60,
+        "arrivalRate": 100,
+        "name": "100 rps for 60 sec"
+      },
+      {
+        "duration": 60,
+        "arrivalRate": 1000,
+        "name": "1000 rps for 60 sec"
       }
     ],
     "payload": {
@@ -18,18 +33,18 @@
   },
   "scenarios": [
     {
-      "name": "View Products",
+      "name": "Pull Reviews data for a product.",
       "flow": [
         {
           "loop": [
             {
               "get": {
-                "url": "/reviews/{{ id }}/list"
+                "url": "/reviews/{{ id }}/meta"
               }
             },
             {
               "get": {
-                "url": "/reviews/{{ id }}/meta"
+                "url": "/reviews/{{ id }}/list"
               }
             }
           ],
