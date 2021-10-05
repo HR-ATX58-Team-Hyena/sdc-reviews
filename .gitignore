@@ -85,6 +85,6 @@ dist
 # Sensitive Access Data
 config.js
 
-# artillery testing folder
-tests/artillery
+# Artillery reports and sample data
+tests/artillery/reports
 tests/artillery/product_ids.csv
