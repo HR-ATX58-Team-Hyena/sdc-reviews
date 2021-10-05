@@ -56,6 +56,7 @@ CREATE TABLE characteristic_reviews (
 );
 
 CREATE INDEX review_char_reviews_index ON characteristic_reviews(review_id);
+CREATE INDEX char_char_reviews_index ON characteristic_reviews(characteristic_id);
 
 \COPY reviews (review_id, product_id, rating, epoch, summary, body, recommend, reported, reviewer_name, reviewer_email, response, helpfulness) FROM '/Users/donvida/Documents/Repos/sdc-data/reviews.csv' DELIMITER ',' CSV HEADER;
 

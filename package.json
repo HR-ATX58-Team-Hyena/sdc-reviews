@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "jest --coverage",
+    "loadtest": "artillery run -o tests/artillery/reports/ tests/artillery/loadtesting.json",
     "start": "nodemon server.js",
     "reset-psql": "psql -U postgres -a -f db/schemas/postgres.sql"
   },

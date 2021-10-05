@@ -14,7 +14,6 @@ const getReviewsData = ({ product_id, sort, count = 5, page = 0 }, callback) => 
   const fetchReviews = ` OFFSET ${offset} ROWS FETCH FIRST $2 ROW ONLY `;
 
   let sortReviews = '';
-  console.log('sort request received:', sort);
 
   switch (sort) {
     case 'helpful:asc':
