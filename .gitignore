@@ -86,5 +86,5 @@ dist
 config.js
 
 # Artillery reports and sample data
-tests/artillery/reports
+tests/artillery/reports/*.json
 tests/artillery/product_ids.csv
