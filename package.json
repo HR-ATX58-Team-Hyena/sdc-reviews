@@ -7,7 +7,8 @@
     "test": "jest --coverage",
     "loadtest": "artillery run -o tests/artillery/reports/ tests/artillery/loadtesting.json",
     "start": "nodemon server.js",
-    "reset-psql": "psql -U postgres -a -f db/schemas/postgres.sql"
+    "reset-psql": "psql -U postgres -a -f db/schemas/postgres.sql",
+    "reset-remote-psql": "psql -h 18.117.192.172 -U postgres -a -f db/schemas/postgres.sql"
   },
   "repository": {
     "type": "git",
