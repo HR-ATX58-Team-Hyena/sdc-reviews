@@ -1,6 +1,7 @@
 const express = require('express');
 const redis = require('redis');
 const cors = require('cors');
+const { loaderIO } = require('./config');
 require('newrelic');
 
 // modules
@@ -112,8 +113,8 @@ app.put('/reviews/report/:review_id', (req, res) => {
 });
 
 // Loader.io integration
-app.get('/***REMOVED***/', (req, res) => {
-  res.send('***REMOVED***');
+app.get(`/${loaderIO.key}`, (req, res) => {
+  res.send(loaderIO.key);
 });
 
 // Listening
