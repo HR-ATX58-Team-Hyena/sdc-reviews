@@ -11,7 +11,8 @@
         "sourceType": "module"
     },
     "ignorePatterns": [
-        "*.test.js"
+        "*.test.js",
+        "newrelic.js"
     ],
     "rules": {
         "no-console": "off",

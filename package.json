@@ -8,7 +8,7 @@
     "loadtest": "artillery run -o tests/artillery/reports/ tests/artillery/loadtesting.json",
     "start": "nodemon server.js",
     "reset-psql": "psql -U postgres -a -f db/schemas/postgres.sql",
-    "reset-remote-psql": "psql -h 18.117.192.172 -U postgres -a -f db/schemas/postgres.sql"
+    "reset-remote-psql": "psql -h 18.222.242.143 -U postgres -a -f db/schemas/postgres.sql"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,7 @@
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "newrelic": "^8.4.0",
     "pg": "^8.7.1",
     "redis": "^3.1.2"
   },
