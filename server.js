@@ -111,6 +111,11 @@ app.put('/reviews/report/:review_id', (req, res) => {
   });
 });
 
+// Loader.io integration
+app.get('/loaderio-d213e2566c884259dc767c6107dfe708/', (req, res) => {
+  res.send('loaderio-d213e2566c884259dc767c6107dfe708');
+});
+
 // Listening
 
 app.listen(port, (err) => {
