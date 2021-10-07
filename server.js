@@ -111,6 +111,11 @@ app.put('/reviews/report/:review_id', (req, res) => {
   });
 });
 
+// Loader.io integration
+app.get('/***REMOVED***/', (req, res) => {
+  res.send('***REMOVED***');
+});
+
 // Listening
 
 app.listen(port, (err) => {
