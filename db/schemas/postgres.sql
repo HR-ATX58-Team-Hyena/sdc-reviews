@@ -30,6 +30,7 @@ CREATE TABLE photos (
       ON DELETE CASCADE
 );
 
+CREATE INDEX photos_reviews_index ON photos(review_id);
 
 CREATE TABLE characteristics (
   characteristic_id SERIAL NOT NULL PRIMARY KEY,
