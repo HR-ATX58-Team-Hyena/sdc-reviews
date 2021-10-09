@@ -1,4 +1,5 @@
 'use strict'
+const { newrelic } = require('./config')
 /**
  * New Relic agent configuration.
  *
@@ -13,7 +14,7 @@ exports.config = {
   /**
    * Your New Relic license key.
    */
-  license_key: 'a4970fb7aa0899a44620e4a6d6e4c7bfe0f8NRAL',
+  license_key: newrelic.key,
   /**
    * This setting controls distributed tracing.
    * Distributed tracing lets you see the path that a request takes through your
